@@ -44,7 +44,7 @@ var loader = document.getElementById("loader");
 
 function submitImage() {
   // action for the submit button
-  console.log("submit");
+//   console.log("submit");
 
   if (!imageDisplay.src || !imageDisplay.src.startsWith("data")) {
     window.alert("Please select an image before submit.");
@@ -132,8 +132,16 @@ function displayResult(data) {
   // display the result
   // imageDisplay.classList.remove("loading");
   hide(loader);
+  var buttonEl = document.createElement("a");
+  buttonEl.href = "localhost:8000";
+  var buttonTextEl = document.createElement("span");
+  buttonTextEl.innerHTML = "Show Result";
+  console.log("Show Result");
+  predResult.appendChild(buttonEl);
   predResult.innerHTML = data.result;
   show(predResult);
+  console.log("Redirecting")
+  window.location = ("localhost:8000/result");
 }
 
 function hide(el) {

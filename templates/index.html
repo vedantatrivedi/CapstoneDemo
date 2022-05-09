@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>Coin Detector</title>
+		<title>Image Dehazer</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="static/assets/css/main.css" />
@@ -10,7 +10,9 @@
 
 		<!-- Header -->
 			<header id="header" class="alt">
-				<div class="logo"><a href="index.html">Project Demo <span>for Image Processing</span></a></div>
+				<div class="logo"><a href="index.html">Project Demo <span>for Capstone Project</span></a></div>
+				<a href="/video_demo" class="button special scrolly">Show Video Demo</a>
+				
 			</header>
 
 
@@ -22,9 +24,9 @@
 		-->
 			<section id="banner" data-video="images/banner" >
 				<div class="inner">
-					<h1>Coin Classification Application</h1>
+					<h1>Image Dehazer Application</h1>
 					<p>A Flask Application backed by Artificial Intelligence<br />
-					for automatic classification of coins, using Image Processing.</p>
+					for automatic single image dehazing.</p>
 					<a href="#one" class="button special scrolly">Let's Get Started</a>
 				</div>
 			</section>
@@ -43,9 +45,9 @@
 									<p>How does this app work?</p>
 								
 								<hr />
-								<p> An image can be uploaded on the web app. This image, in the backend undergoes numerous Image Processing techniques are applied as pre processing. These include resizing, thresholding, object detection,histogram equivalence,HOG and more.</p>
-								<p>We use our trained CNN model to call the predict function on this processed image, and returns the classification on the front end.Flask is used as the backend, with HTML/CSS for a responsive front end application.</p>
-								<a href="{{ url_for('predict') }}" class="button special scrolly">Classifier</a>
+								<p> An image can be uploaded on the web app. A call to our Flask API is made .</p>
+								<p>We use our trained GAN model to call the generate function on this image, and returns the dehazed image.Flask is used as the backend, with HTML/CSS for a responsive front end application.</p>
+								<a href="{{ url_for('predict') }}" class="button special scrolly">Dehazer</a>
 								</header>
 							</div>
 						</div>
@@ -63,19 +65,19 @@
 							<header>
 								<h3>Dataset</h3>
 							</header>
-							<p>Collected and collated original dataset of Indian coins in circulation</p>
+							<p>NYU-v2 dataset for clean and hazed images.</p>
 						</div>
 						<div>
 							<header>
 								<h3>Method</h3>
 							</header>
-							<p>Image Processing techniques along with deep learning. A computer Vision project.</p>
+							<p>An attention based Generational Adverserial Network. A computer Vision project.</p>
 						</div>
 						<div>
 							<header>
 								<h3>Result</h3>
 							</header>
-							<p>A web application which tells you the value of indian coins in an image.</p>
+							<p>A web application which returns a dehazed image.</p>
 						</div>
 					</div>
 				</div>
@@ -86,10 +88,8 @@
 				<div class="inner">
 
 					<header class="align-center">
-						<h2>Team Members</h2>
-						<pre>Mansi Parashar 18BCE1048       Kartik Narang  18BCE1199</pre>
-						<pre>Arpit Gupta    18BCE1031       Anand Bhalotia 18BCE1121</pre>
-						<pre>               Adarsh Sahu 18BCE1029                   </pre>
+						<p> This Project is created by Mansi Parashar for her Bachelor's Thesis</p>
+						
 					</header>
 
 				</div>

@@ -1,0 +1,125 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.6.0/popcorn.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script>
+
+function videoHandler(){
+    var videos = {
+    a: Popcorn("#a"),
+    b: Popcorn("#b"),
+  },
+  scrub = $("#scrub"),
+  loadCount = 0,
+  events = "play pause timeupdate seeking".split(/\s+/g);
+
+// iterate both media sources
+Popcorn.forEach(videos, function(media, type) {
+
+  // when each is ready... 
+  media.on("canplayall", function() {
+
+    // trigger a custom "sync" event
+    this.emit("sync");
+
+    // set the max value of the "scrubber"
+    scrub.attr("max", this.duration());
+
+    // Listen for the custom sync event...    
+  }).on("sync", function() {
+
+    // Once both items are loaded, sync events
+    if (++loadCount == 2) {
+
+      // Iterate all events and trigger them on the video B
+      // whenever they occur on the video A
+      events.forEach(function(event) {
+
+        videos.a.on(event, function() {
+
+          // Avoid overkill events, trigger timeupdate manually
+          if (event === "timeupdate") {
+
+            if (!this.media.paused) {
+              return;
+            }
+            videos.b.emit("timeupdate");
+
+            // update scrubber
+            scrub.val(this.currentTime());
+
+            return;
+          }
+
+          if (event === "seeking") {
+            videos.b.currentTime(this.currentTime());
+          }
+
+          if (event === "play" || event === "pause") {
+            videos.b[event]();
+          }
+        });
+      });
+    }
+  });
+});
+scrub.bind("change", function() {
+  var val = this.value;
+  videos.a.currentTime(val);
+  videos.b.currentTime(val);
+});
+function sync() {
+  if (videos.b.media.readyState === 4) {
+    videos.b.currentTime(
+      videos.a.currentTime()
+    );
+  }
+  requestAnimationFrame(sync);
+}
+
+sync();
+}
+
+</script>
+
+
+<style>
+    .center {
+  margin: auto;
+  width: 50%;
+  border: 3px solid green;
+  padding: 10px;
+}
+p {
+    padding-top: 10em;
+}
+
+</style>
+
+<body onload="videoHandler()" >
+    <div class = "container">
+        <div class = "row">
+
+            <div class="col-sm-6">
+                <p align = "center" >Hazed</p>
+                <video width="640" height="480" id="a" controls> 
+                    <source src="../static/images/test_video.mp4"></source>
+                </video>
+            </div>
+            
+            <div class="col-sm-6">
+                <p align = "center">Dehazed</p>
+                <video width="640" height="480" id="b"> 
+                    <source src="../static/images/output.mp4"></source>
+                </video>
+            </div>
+        </div>
+
+        
+        <br>
+        <center>
+        <input type="range" value="0" id="scrub" />
+        </center>
+    </div>
+</body>
